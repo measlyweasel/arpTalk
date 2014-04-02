@@ -1,3 +1,4 @@
 .ipynp_checkpoints/
 .ipynb_checkpoints/
 *.pyc
+convertNotebooks.sh
