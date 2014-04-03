@@ -214,7 +214,7 @@ class HTTPRequest(HTTPMessage):
         # Read headers & body
         headers = HTTPMessage._readheaders(data)
         body    = HTTPMessage._readbody(data, headers)
-        url = HTTPMessage._fixURLMalformed("https", url, headers)
+        url = HTTPMessage._fixURLMalformed("http", url, headers)
         return HTTPRequest(method, url, proto, headers, body)
 
     def getHost(self):
@@ -331,7 +331,6 @@ class HTTPResponse(HTTPMessage):
             # FIXME: Make a single-chunk body
             s += "%x" % len(self.body) + HTTPMessage.EOL
             s += self.body + HTTPMessage.EOL
-            s += HTTPMessage.EOL
             s += "0" + HTTPMessage.EOL + HTTPMessage.EOL
 
         return s
