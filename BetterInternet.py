@@ -1,18 +1,18 @@
 
-# In[ ]:
+# In[1]:
 
-from thirdParty.proxpy.core import *
+from proxpy.core import *
 
 
-# In[ ]:
+# In[2]:
 
 opts = ProxyState()
 opts.listenport = 8080
 opts.listenaddr = '0.0.0.0'
-opts.plugin = ProxyPlugin('proxyPlugins/passthrough.py')
+opts.plugin = ProxyPlugin('proxyPlugins/replace.py')
 
 
-# In[ ]:
+# In[*]:
 
 server = ProxyServer(opts)
 server.startProxyServer()
