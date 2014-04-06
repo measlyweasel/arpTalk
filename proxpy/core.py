@@ -163,6 +163,7 @@ class ProxyHandler(SocketServer.StreamRequestHandler):
         if not self.doRequest(conn, "GET", req.getPath(), '', req.headers): return ''
         # Delegate response to plugin
         res = self._getresponse(conn)
+	res.addHeader("origHost",req.getHost()[0]) 
         res = ProxyPlugin.delegate(ProxyPlugin.EVENT_MANGLE_RESPONSE, res.clone())
         data = res.serialize()
         return data
@@ -221,7 +222,6 @@ class ProxyHandler(SocketServer.StreamRequestHandler):
 
         code = res.status
         msg = res.reason
-
         res = HTTPResponse(proto, code, msg, res.msg.headers, body)
 
         return res

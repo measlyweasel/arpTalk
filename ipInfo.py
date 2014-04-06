@@ -3,7 +3,7 @@ import socket
 import netifaces
 
 interface = 'eth0'
-victimIp = '192.168.1.101'
+victimIp = '192.168.1.133'
 
 def isMyRoute(x):
 	return x[3] == interface and x[2] != '0.0.0.0'

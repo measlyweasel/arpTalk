@@ -296,6 +296,7 @@ class HTTPResponse(HTTPMessage):
         self.code    = code
         self.msg     = msg
         self.body    = body
+	self.url     = ''
         HTTPMessage.__init__(self, headers)
 
     @staticmethod
@@ -303,7 +304,7 @@ class HTTPResponse(HTTPMessage):
         # Read request line
         reqline = data.readline().rstrip(HTTPMessage.EOL)
 
-        method, url, proto = reqline.split()
+        method, self.url, proto = reqline.split()
 
         # Read headers & body
         headers = HTTPMessage._readheaders(data)
