@@ -13,6 +13,7 @@ adium-theme-ubuntu==0.3.3
 apt-xapian-index==0.45
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
+beautifulsoup4==4.3.2
 chardet==2.0.1
 command-not-found==0.3
 configglue==1.1.2
@@ -46,6 +47,7 @@ python-debian==0.1.21-nmu2ubuntu1
 pyxdg==0.25
 pyzmq==13.1.0
 reportlab==2.6
+requests==2.2.1
 rhythmbox-ubuntuone==13.10
 scapy==2.2.0-dev
 sessioninstaller==0.0.0

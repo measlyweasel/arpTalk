@@ -1,3 +1,6 @@
+
+# In[ ]:
+
 from scapy.all import *
 import socket
 import netifaces
@@ -21,3 +24,4 @@ myIp=ips['myIp']
 def printIpInfo():	
 	for key,value in ips.iteritems():
 		print '{0:10}: {1:20}'.format(key, value)
+

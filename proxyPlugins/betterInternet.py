@@ -2,20 +2,10 @@ import gzip
 from StringIO import StringIO 
 from bs4 import BeautifulSoup
 from bs4 import Comment
-import upsidedown 
-
-def strainSoupForText(element):
-	if element.parent.name in ['style', 'script', '[document]', 'head', 'title']:
-		return False
-	elif isinstance(element, Comment):
-		return False
-	return True
 
 def upsidedownternet(response):
 	soup = BeautifulSoup(response.body)
-#	textSoup = soup.findAll(text=strainSoupForText)
 	for element in soup.findAll('body'):
-		#element = element.replace_with(upsidedown.transform(element))
 		flipped = "-webkit-transform:scaleX(-1);-ms-transform:scaleX(-1);"
 		if 'style' in element.attrs.keys():
 			element.attrs['style'] += flipped
@@ -23,12 +13,30 @@ def upsidedownternet(response):
 			element.attrs['style']=flipped
 	response.body = str(soup)
 
+def cornify(response):
+	cornifyJs = '''
+		<script type="text/javascript" src="http://www.cornify.com/js/cornify.js">
+		</script>
+		<script> 
+			$j(document).on('mouseenter', 
+					'div', 
+					function(){
+						cornify_add();
+						$j('p#cornifycount').hide();		
+					})
+		</script>
+		
+	'''
+	response.body = response.body.replace('</head>',cornifyJs + '</head>')
+
 def makeInternetBetter(response):
 	#depending on the header i injected in proxpy/core.py doGet
 	origHost = response.getHeader('origHost')
 	if not origHost: return
 	if 'reddit.com' in origHost[0]:
 		upsidedownternet(response)
+	if 'cnn.com' in origHost[0] and response.getHeader('origPath')[0] == '/':
+		cornify(response)
 
 def fixWaybackToolbar(response):
 	if response.getHeader('X-Archive-Orig-contentlocation'):
